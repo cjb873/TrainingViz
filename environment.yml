@@ -1,0 +1,10 @@
+name: viz
+dependencies:
+  - python=3.11.8
+  - pytorch
+  - numpy
+  - matplotlib
+  - pip
+  - pip:
+    - neuromancer
+
