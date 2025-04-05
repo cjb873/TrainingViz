@@ -128,11 +128,11 @@ trainer = VizTrainer(
     dev_loader,
     test_loader,
     optimizer=optimizer,
-    epochs=100,
+    epochs=10,
     train_metric='train_loss',
     eval_metric='dev_loss',
     test_metric='test_loss',
-    warmup=50,
+    warmup=5,
     callback=callb
 )
 # Train control policy
