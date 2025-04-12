@@ -1,3 +1,4 @@
+import torch
 from neuromancer.callbacks import Callback
 
 
@@ -16,3 +17,10 @@ class CallbackViz(Callback):
         else:
             {key: val.append(current_results[key]) for key, val in
              self.data.items()}
+
+    def end_train(self, trainer, output):
+        self.data = {key: torch.stack(val).squeeze() for key, val in
+                     self.data.items() if isinstance(val[0], torch.Tensor)}
+
+    def get_data(self):
+        return self.data
