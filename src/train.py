@@ -171,7 +171,6 @@ keys = {'r_key': 'test_r',
         'umax_key': 'test_umax',
         'loss_key': 'test_loss'}
 
-from viz import Viz
 v = Viz(data, y_key, **keys)
 
 v.animate()

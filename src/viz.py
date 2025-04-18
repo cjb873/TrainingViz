@@ -22,6 +22,7 @@ class Viz:
         self.loss_key = loss_key
 
     def animate(self):
+        figsize = 10
         epochs = self.data[self.y_key].shape[0]
         nsteps_test = self.data[self.y_key].shape[-2] - 1
         ny = self.data[self.y_key].shape[-1]
@@ -42,7 +43,7 @@ class Viz:
         Xmin = xmin * np.ones([nsteps_test+1, ny])
         Xmax = xmax * np.ones([nsteps_test+1, ny])
 
-        fig, ax = plt.subplots(2, figsize=(self.figsize, self.figsize))
+        fig, ax = plt.subplots(2, figsize=(figsize, figsize))
         title = fig.suptitle("Test Trajectories at Epoch 0", fontsize=48)
         ax[0].set_title("State Trajectories", fontsize=24)
         ax[0].plot(ref[0, :, :], '--', color="red", label="reference",
@@ -51,24 +52,28 @@ class Viz:
         ax[0].plot(Xmin, '--', color='black', linewidth=5)
         ax[0].plot(Xmax, '--', color='black', linewidth=5)
         ax[1].set_title("Control Input", fontsize=24)
-        line_u = ax[1].plot(u[0, :, :], label='policy', linewidth=5)
+        line_u = ax[1].plot(u[0, :], label='policy', linewidth=5)
         ax[1].plot(Umin, '--', color='black', linewidth=5)
         ax[1].plot(Umax, '--', color='black', linewidth=5)
-        text = ax[1].text(-20, -1, f"Loss of Policy: {loss[0].item():.4f}",
+        text = ax[1].text(-20, -20, f"Loss of Policy: {loss[0].item():.4f}",
                           fontsize=18)
 
         def update(frame):
             frame_y = y[frame, :, :]
-            frame_u = u[frame, :, :]
+            frame_u = u[frame, :]
 
-            for col in frame_y.T:
-                line_y[0].set_ydata(col)
+            for i, col in enumerate(frame_y.T):
+                line_y[i].set_ydata(col)
 
-            for col in frame_u.T:
-                line_u[0].set_ydata(col)
+            if len(frame_u.shape) > 1:
+                for col in frame_u.T:
+                    line_u[0].set_ydata(col)
+            else:
+                line_u[0].set_ydata(frame_u)
+
             text.set_text(f"Loss of policy: {loss[frame].item():.4f}")
             title.set_text(f"Test Trajectories at epoch {frame}")
 
-        animation.FuncAnimation(fig=fig, func=update, frames=epochs,
-                                interval=500)
-        plt.show()
+        ani = animation.FuncAnimation(fig=fig, func=update, frames=epochs,
+                                      interval=500)
+        ani.save(filename="pillow_example.gif", writer="pillow")
