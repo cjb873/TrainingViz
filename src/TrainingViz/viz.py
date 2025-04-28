@@ -35,6 +35,7 @@ class Viz:
 
         xmin = self.data[self.ymin_key][0, 0, -1].item()
         xmax = self.data[self.ymax_key][0, 0, -1].item()
+        print(self.data[self.umin_key]
         umin = self.data[self.umin_key][0, -1].item()
         umax = self.data[self.umax_key].unique()[0].item()
 
