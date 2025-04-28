@@ -4,6 +4,7 @@ import torch
 
 def move_batch_to_device(batch, device="cpu"):
     return {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
+from copy import deepcopy
 
 
 class VizTrainer(Trainer):
