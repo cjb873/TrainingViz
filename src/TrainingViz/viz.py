@@ -55,7 +55,7 @@ class Viz:
         line_u = ax[1].plot(u[0, :], label='policy', linewidth=5)
         ax[1].plot(Umin, '--', color='black', linewidth=5)
         ax[1].plot(Umax, '--', color='black', linewidth=5)
-        text = ax[1].text(-20, -20, f"Loss of Policy: {loss[0].item():.4f}",
+        text = ax[1].text(-20, 0, f"Loss of Policy: {loss[0].item():.4f}",
                           fontsize=18)
 
         def update(frame):
