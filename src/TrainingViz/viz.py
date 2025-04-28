@@ -21,7 +21,7 @@ class Viz:
         self.umax_key = umax_key
         self.loss_key = loss_key
 
-    def animate(self):
+    def animate(self, fname):
         figsize = 10
         epochs = self.data[self.y_key].shape[0]
         nsteps_test = self.data[self.y_key].shape[-2] - 1
@@ -76,4 +76,4 @@ class Viz:
 
         ani = animation.FuncAnimation(fig=fig, func=update, frames=epochs,
                                       interval=500)
-        ani.save(filename="pillow_example.gif", writer="pillow")
+        ani.save(filename=f"{fname}.gif", writer="pillow")
