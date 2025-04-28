@@ -2,6 +2,9 @@ from neuromancer.trainer import Trainer
 from torch.utils.data import DataLoader
 import torch
 
+def move_batch_to_device(batch, device="cpu"):
+    return {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
+
 
 class VizTrainer(Trainer):
     def __init__(self, *args, **kwargs):
